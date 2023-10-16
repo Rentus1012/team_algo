@@ -1,38 +1,38 @@
 import pygame, sys
 from pygame.locals import*
 import random
-from mutagen.mp3 import MP3
-#audio = MP3("Bee.mp3")
-#print(audio.info.length)
+import time
+import eyed3
 
 pygame.init()
 
 title = "Piano Game"
 pygame.display.set_caption(title)
 
-#½ÃÀÛÈ­¸é ¸¸µé±â
+#ì‹œìž‘í™”ë©´ ë§Œë“¤ê¸°
 def game():
-    size = (400, 500)
-    start_screen = pygame.display.set_mode(size)
+    width = 400
+    height = 500
+    start_screen = pygame.display.set_mode((width, height))#ì‚¬ì´ì¦ˆ ì„¤ì •.(400 X 500)
     
-    pygame.font.init()
-    title_font = pygame.font.SysFont('Sans', 40, True, False)
+    title_font = pygame.font.SysFont('Sans', 40, True, False)# sans ë¼ëŠ” í°íŠ¸ë¡œ 40í¬ì¸íŠ¸, ê¸€ìž ê¸°ìš¸ì´ê¸°ë¥¼ ì„¤ì •í•¨.
     title_message = "Piano Game."
-    title_message_object = title_font.render(title_message, True, (0, 0, 0))
+    title_message_object = title_font.render(title_message, True, (0, 0, 0))# ìƒ‰ê¹” ì„¤ì •
     title_message_rect = title_message_object.get_rect()
-    title_message_rect.center = (250, 100)
+    title_message_rect.center = ((width / 2), (height / 5))#ì´ë¯¸ì§€ ì¡°ìž‘ ì„¤ì • í•¨ìˆ˜
     
     pygame.font.init()
     sub_font = pygame.font.SysFont('malgungothic', 20, False, False)
-    start_message = "°ÔÀÓ½ÃÀÛ"
+    start_message = "ê²Œìž„ì‹œìž‘"
     start_message_object = sub_font.render(start_message, True, (0, 0, 0))
     start_message_rect = start_message_object.get_rect()
-    start_message_rect.center = (250, 250)
+    start_message_rect.center = ((width / 2), (height / 2))
     
-    exp_message = "¼³¸í"
+    exp_message = "ì„¤ëª…"
     exp_message_object = sub_font.render(exp_message, True, (0, 0, 0))
     exp_message_rect = exp_message_object.get_rect()
-    exp_message_rect.center = (250, 300)
+    exp_message_rect.center = ((width / 2), (height / 1.6))
+    
     
     while True:
         for event in pygame.event.get():
@@ -46,13 +46,16 @@ def game():
                 mouse_pos = pygame.mouse.get_pos()
                 if mouse_pos[0] > start_message_rect.left and mouse_pos[0] < start_message_rect.right and mouse_pos[1] > start_message_rect.top and mouse_pos[1] < start_message_rect.bottom:
                     sound_track()
-                
+                if mouse_pos[0] > exp_message_rect.left and mouse_pos[0] < exp_message_rect.right and mouse_pos[1] > exp_message_rect.top and mouse_pos[1] < exp_message_rect.bottom:
+                    explain()# 49ë²ˆ: ì„¤ëª… í•­ëª©ì¹¸ì— ë“¤ì–´ê°€ì„œ 
+
         
         start_screen.fill((255, 255, 255))
         start_screen.blit(title_message_object, title_message_rect)
         start_screen.blit(start_message_object, start_message_rect)
         start_screen.blit(exp_message_object, exp_message_rect)
         pygame.display.update()
+
 
 def sound_track():
     white = (255,255,255)
@@ -66,17 +69,22 @@ def sound_track():
 
     font = pygame.font.SysFont("malgungothic", 20, True, True)
 
-    text = font.render("¹è°æÀ½¾Ç ¼±ÅÃ", True, black)
+    text = font.render("ë°°ê²½ìŒì•… ì„ íƒ", True, black)
 
     button1 = pygame.image.load("1.png")
+    button1 = pygame.transform.scale(button1, (screen_width/2, screen_height/10))
     button2 = pygame.image.load("2.png")
-
+    button2 = pygame.transform.scale(button2, (screen_width/2, screen_height/10))
     button1rect = button1.get_rect()
+    button1rect.x = screen_width/4
+    button1rect.y = screen_height*1/4
     button2rect = button2.get_rect()
-    button1rect.x = screen_width/5
-    button1rect.y = screen_height/3
-    button2rect.x = screen_width/5
-    button2rect.y = screen_height*2/3
+    button2rect.x = screen_width/4
+    button2rect.y = screen_height*2/4
+
+    
+    back = pygame.image.load("triangle.png")
+    back_rect = back.get_rect()
 
     done = False
     clock = pygame.time.Clock()
@@ -92,52 +100,131 @@ def sound_track():
                 pygame.mouse.get_rel()
                 mouse_pos = pygame.mouse.get_pos()
                 if mouse_pos[0] > button1rect.left and mouse_pos[0] < button1rect.right and mouse_pos[1] > button1rect.top and mouse_pos[1] < button1rect.bottom:
-                    game_start("Bee.mp3")
+                    game_start("Bee.mp3", 220)
                 if mouse_pos[0] > button2rect.left and mouse_pos[0] < button2rect.right and mouse_pos[1] > button2rect.top and mouse_pos[1] < button2rect.bottom:
-                    print("button2 Å¬¸¯")
-        
+                    game_start("HER.mp3", 180)  
+                if mouse_pos[0] > back_rect.left and mouse_pos[0] < back_rect.right and mouse_pos[1] > back_rect.top and mouse_pos[1] < back_rect.bottom:
+                    game()
         
         screen.blit(text, (screen_width/3, screen_height/100))
-        screen.blit(button1, (screen_width/5, screen_height*1/3))
-        screen.blit(button2, (screen_width/5, screen_height*2/3))
+        screen.blit(button1, (screen_width/4, screen_height*1/4))
+        screen.blit(button2, (screen_width/4, screen_height*2/4))
+        screen.blit(back, (0,0))
         pygame.display.update()
 
 
+def explain():
+    white = (255,255,255)
+    black = (0,0,0)
 
-def game_start(music):
-    # È­¸é ¼³Á¤
+    screen_width = 400
+    screen_height = 500
+    size = [screen_width, screen_height]
+
+    screen = pygame.display.set_mode(size)
+
+
+    font = pygame.font.SysFont("malgungothic", 20, True, True)
+
+    text = font.render("ê²Œìž„ í”Œë ˆì´ ë°©ë²•", True, black)
+
+    back = pygame.image.load("triangle.png")
+    back_rect = back.get_rect()
+
+    explain = pygame.image.load("explain.png")
+    explain = pygame.transform.scale(explain,(screen_width, screen_height*9/10))
+
+    done = False
+    clock = pygame.time.Clock()
+
+    while not done:
+        clock.tick(10)
+        screen.fill(white)
+        
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                done = True
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                pygame.mouse.get_rel()
+                mouse_pos = pygame.mouse.get_pos()
+                if mouse_pos[0] > back_rect.left and mouse_pos[0] < back_rect.right and mouse_pos[1] > back_rect.top and mouse_pos[1] < back_rect.bottom:
+                    game()
+            
+        screen.blit(text, (screen_width/3,screen_height/100))
+        screen.blit(back, (0,0))
+        screen.blit(explain, (0, screen_height/10))
+        pygame.display.update()
+
+def game_start(music, music_time):
+    # í™”ë©´ ì„¤ì •
     screen_width, screen_height = 400, 500
     screen = pygame.display.set_mode((screen_width, screen_height))
-    pygame.display.set_caption("ÇÇ¾Æ³ë ¶òµ¿¶òµ¿")
+    pygame.display.set_caption("í”¼ì•„ë…¸ ëµë™ëµë™")
+    font = pygame.font.SysFont("malgungothic", 20, True, True)
 
-    # »ö»ó Á¤ÀÇ
+    # í™ˆë²„íŠ¼
+    home = pygame.image.load("home.png")
+    home_rect = home.get_rect()
+    home_rect.x = screen_width -50
+    home_rect.y = 0
+
+    # ìƒ‰ìƒ ì •ì˜
     white = (255, 255, 255)
     black = (0, 0, 0)
 
-    # ½Ã°£ ¼³Á¤
+    # ì‹œê°„ ì„¤ì •
     clock = pygame.time.Clock()
 
-    # ÇÇ¾Æ³ë Å¸ÀÏ ¼³Á¤
+    # í”¼ì•„ë…¸ íƒ€ì¼ ì„¤ì •
     tile_width = 100
     tile_height = 50
     tiles = []
     speed = 5
     score = 0
 
-    # È­¸éÀ» 4°³ÀÇ ¼¼·Î µîºÐµÈ È­¸éÀ¸·Î ³ª´®
-    line_x_coordinates = [i * (screen_width // 4) for i in range(4)]  # 4°³ÀÇ ¼¼·Î¼±
 
+    # score í™•ì¸
+    
+    def display_score():
+        score_text = font.render(f"ì ìˆ˜: {score}", True, white)
+        screen.blit(score_text, (10, 10))
 
-    # BPM 162¿¡ ¸Â°Ô ¹ÚÀÚ °£°Ý ¼³Á¤
-    bpm = 162
-    beat_interval = int((60 / bpm) * 1000)  # ¹Ð¸®ÃÊ ´ÜÀ§
+    # line
+    line_width = 100
+    line_height = 20
 
-    next_beat_time = pygame.time.get_ticks() + beat_interval
+    q = pygame.image.load("line.png")
+    q = pygame.transform.scale(q,(line_width-4, line_height))
+    q_rect = q.get_rect()
+    q_rect.x = 2
+    q_rect.y = screen_height - line_height*3
+    
+    w = pygame.image.load("line.png")
+    w = pygame.transform.scale(w,(line_width-4, line_height))
+    w_rect = w.get_rect()
+    w_rect.x = line_width + 2
+    w_rect.y = screen_height - line_height*3
+    
+    e = pygame.image.load("line.png")
+    e = pygame.transform.scale(e,(line_width-4, line_height))
+    e_rect = e.get_rect()
+    e_rect.x = line_width * 2 + 2
+    e_rect.y = screen_height - line_height*3
+    
+    r = pygame.image.load("line.png")
+    r = pygame.transform.scale(r,(line_width-4, line_height))
+    r_rect = r.get_rect()
+    r_rect.x = line_width * 3 + 2
+    r_rect.y = screen_height - line_height*3
+    
+    # í™”ë©´ì„ 4ê°œì˜ ì„¸ë¡œ ë“±ë¶„ëœ í™”ë©´ìœ¼ë¡œ ë‚˜ëˆ”
+    line_x_coordinates = [i * (screen_width // 4) for i in range(4)]  # 4ê°œì˜ ì„¸ë¡œì„ 
 
     def create_tile():
         x = random.choice(line_x_coordinates)
         y = 0
-        color = (255, 255, 255)
+        color = white
         tile = pygame.Rect(x, y, tile_width, tile_height)
         tiles.append((tile, color))
 
@@ -146,35 +233,134 @@ def game_start(music):
             tile.move_ip(0, speed)
 
     def remove_tiles():
-        global score
         for tile, _ in tiles:
             if tile.top > screen_height:
                 tiles.remove((tile, _))
 
+                
+    # BPM ì— ë§žê²Œ ë°•ìž ê°„ê²© ì„¤ì •
+    bpm = 324
+    beat_interval = 1 / (bpm/60) # ë°€ë¦¬ì´ˆ ë‹¨ìœ„
+    next_beat_time = time.time() + beat_interval
+
+    tile_num = music_time * bpm/60
+
     running = True
     pygame.mixer.music.load( music )
+
     pygame.mixer.music.play()
-    while running:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
+
+    current_time = 0
+    start_time = time.time()
+    
+    while running and music_time>=current_time - start_time:
         
-        current_time = pygame.time.get_ticks()
+        screen.fill(black)                   
+        
+        current_time = time.time()
+        
         if current_time >= next_beat_time:
+            
             create_tile()
             next_beat_time += beat_interval
 
+        
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            if event.type == pygame.KEYDOWN:
+                    for tile in tiles:
+                        if q_rect.colliderect(tile[0]) and event.key == pygame.K_q:
+                            score+=1
+                            tiles.remove((tile))
+                        elif w_rect.colliderect(tile[0]) and event.key == pygame.K_w:
+                            score+=1
+                            tiles.remove((tile))
+                        elif e_rect.colliderect(tile[0]) and event.key == pygame.K_e:
+                            score+=1
+                            tiles.remove((tile))
+                        elif r_rect.colliderect(tile[0]) and event.key == pygame.K_r:
+                            score+=1
+                            tiles.remove((tile))
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                pygame.mouse.get_rel()
+                mouse_pos = pygame.mouse.get_pos()
+                if mouse_pos[0] > home_rect.left and mouse_pos[0] < home_rect.right and mouse_pos[1] > home_rect.top and mouse_pos[1] < home_rect.bottom:
+                    pygame.mixer.music.pause()
+                    game()
+            
+
         move_tiles()
         remove_tiles()
+        display_score()
 
-        screen.fill(black)
         for tile, color in tiles:
             pygame.draw.rect(screen, color, tile)
         
-        pygame.display.flip()
+        screen.blit(q, (2, screen_height - line_height*3))
+        screen.blit(w, (line_width + 2, screen_height - line_height*3))
+        screen.blit(e, (line_width * 2 + 2, screen_height - line_height*3))
+        screen.blit(r, (line_width * 3 + 2,  screen_height - line_height*3))
+        screen.blit(home, (screen_width - 50, 0))
 
+        pygame.display.flip()
         clock.tick(60)
 
 
+    pygame.mixer.music.pause()
+    game_score(tile_num, score)
 
+def game_score(tile_num, score):
+    width = 400
+    height = 500
+    start_screen = pygame.display.set_mode((width, height))
+    
+    title_font = pygame.font.SysFont('malgungothic', 40, True, False)
+    title_message_object = title_font.render(f"SCORE : {score}", True, (0, 0, 0))
+    title_message_rect = title_message_object.get_rect()
+    title_message_rect.center = ((width / 2), (height / 5))
+
+    
+    if  score >= tile_num*3/4:
+        score_message = "Perfect"
+    elif score >= tile_num*2/4:
+        score_message = "Great"
+    elif score >= tile_num*1/4:
+        score_message = "Normal"
+    else:
+        score_message = "Bad"
+    
+    pygame.font.init()
+    sub_font = pygame.font.SysFont('malgungothic', 20, False, False)
+    score_message_object = sub_font.render(score_message, True, (0, 0, 0))
+    score_message_rect = score_message_object.get_rect()
+    score_message_rect.center = ((width / 2), (height * 2 / 5))
+    
+    home_message = "ë©”ì¸ë©”ë‰´"
+    home_message_object = sub_font.render(home_message, True, (0, 0, 0))
+    home_message_rect = home_message_object.get_rect()
+    home_message_rect.center = ((width / 2), (height / 1.6))
+    
+    while True:
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == KEYDOWN and event.key == K_SPACE:
+                return
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                pygame.mouse.get_rel()
+                mouse_pos = pygame.mouse.get_pos()
+                if mouse_pos[0] > home_message_rect.left and mouse_pos[0] < home_message_rect.right and mouse_pos[1] > home_message_rect.top and mouse_pos[1] < home_message_rect.bottom:
+                    game()
+
+        
+        start_screen.fill((255, 255, 255))
+        start_screen.blit(title_message_object, title_message_rect)
+        start_screen.blit(score_message_object, score_message_rect)
+        start_screen.blit(home_message_object, home_message_rect)
+        pygame.display.update()    
+    
+
+# ì‹¤í–‰ì‹œ ì œì¼ ë¨¼ì € ì‹¤í–‰
 game()
