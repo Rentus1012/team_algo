@@ -43,19 +43,18 @@ def game():
                 return
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pygame.mouse.get_rel()
-                mouse_pos = pygame.mouse.get_pos()
+                mouse_pos = pygame.mouse.get_pos()# 마우스 클릭 함수
                 if mouse_pos[0] > start_message_rect.left and mouse_pos[0] < start_message_rect.right and mouse_pos[1] > start_message_rect.top and mouse_pos[1] < start_message_rect.bottom:
-                    sound_track()
+                    sound_track()# 똑같음.
                 if mouse_pos[0] > exp_message_rect.left and mouse_pos[0] < exp_message_rect.right and mouse_pos[1] > exp_message_rect.top and mouse_pos[1] < exp_message_rect.bottom:
-                    explain()# 49번: 설명 항목칸에 들어가서 
+                    explain()# 49번: 마우스 포인터가 '설명' 이라는 항목 범위내에 들어가서 마우스 클릭하면 explain 함수로 들어감.
 
         
         start_screen.fill((255, 255, 255))
-        start_screen.blit(title_message_object, title_message_rect)
-        start_screen.blit(start_message_object, start_message_rect)
-        start_screen.blit(exp_message_object, exp_message_rect)
-        pygame.display.update()
-
+        start_screen.blit(title_message_object, title_message_rect)#??
+        start_screen.blit(start_message_object, start_message_rect)#??
+        start_screen.blit(exp_message_object, exp_message_rect)#??
+        pygame.display.update()#업데이트
 
 def sound_track():
     white = (255,255,255)
@@ -63,9 +62,9 @@ def sound_track():
 
     screen_width = 400
     screen_height = 500
-    size = [screen_width, screen_height]
+    size = [screen_width, screen_height]#  사이즈를 400x500으로 지정.
 
-    screen = pygame.display.set_mode(size)
+    screen = pygame.display.set_mode(size)# 똑같음.
 
     font = pygame.font.SysFont("malgungothic", 20, True, True)
 
@@ -112,7 +111,6 @@ def sound_track():
         screen.blit(back, (0,0))
         pygame.display.update()
 
-
 def explain():
     white = (255,255,255)
     black = (0,0,0)
@@ -124,9 +122,9 @@ def explain():
     screen = pygame.display.set_mode(size)
 
 
-    font = pygame.font.SysFont("malgungothic", 20, True, True)
+    font = pygame.font.SysFont("malgungothic", 20, True, True)# 텍스트 기울이기를 True(2)로, malgungothic 이라는 폰트를 불러와서 True(1)로. 
 
-    text = font.render("게임 플레이 방법", True, black)
+    text = font.render("게임 플레이 방법", True, black)# 텍스트 색상 지정. 그리고 True를 해줌으로써 검은색으로 지정.
 
     back = pygame.image.load("triangle.png")
     back_rect = back.get_rect()
@@ -137,24 +135,24 @@ def explain():
     done = False
     clock = pygame.time.Clock()
 
-    while not done:
-        clock.tick(10)
-        screen.fill(white)
+    while not done:# false 가 아닌 True로.
+        clock.tick(10)# 프레임 레이트 지정.
+        screen.fill(white)# 화면을 화이트로 지정.
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                done = True
+                done = True#??
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pygame.mouse.get_rel()
                 mouse_pos = pygame.mouse.get_pos()
                 if mouse_pos[0] > back_rect.left and mouse_pos[0] < back_rect.right and mouse_pos[1] > back_rect.top and mouse_pos[1] < back_rect.bottom:
-                    game()
+                    game()#똑같음.
             
         screen.blit(text, (screen_width/3,screen_height/100))
         screen.blit(back, (0,0))
         screen.blit(explain, (0, screen_height/10))
-        pygame.display.update()
+        pygame.display.update()#??
 
 def game_start(music, music_time):
     # 화면 설정
