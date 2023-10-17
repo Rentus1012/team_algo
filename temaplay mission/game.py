@@ -17,7 +17,7 @@ def game():
     
     title_font = pygame.font.SysFont('Sans', 40, True, False)# sans 라는 폰트로 40포인트, 글자 기울이기를 설정함.
     title_message = "Piano Game."
-    title_message_object = title_font.render(title_message, True, (0, 0, 0))# 색깔 설정
+    title_message_object = title_font.render(title_message, True, (0, 0, 0))#색상 설정
     title_message_rect = title_message_object.get_rect()
     title_message_rect.center = ((width / 2), (height / 5))#이미지 조작 설정 함수
     
@@ -39,8 +39,10 @@ def game():
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
+
             if event.type == KEYDOWN and event.key == K_SPACE:
                 return
+            
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pygame.mouse.get_rel()
                 mouse_pos = pygame.mouse.get_pos()# 마우스 클릭 함수
@@ -50,10 +52,10 @@ def game():
                     explain()# 49번: 마우스 포인터가 '설명' 이라는 항목 범위내에 들어가서 마우스 클릭하면 explain 함수로 들어감.
 
         
-        start_screen.fill((255, 255, 255))
-        start_screen.blit(title_message_object, title_message_rect)#??
-        start_screen.blit(start_message_object, start_message_rect)#??
-        start_screen.blit(exp_message_object, exp_message_rect)#??
+        start_screen.fill((255, 255, 255))#이거는 배경화면
+        start_screen.blit(title_message_object, title_message_rect)#출력
+        start_screen.blit(start_message_object, start_message_rect)#출력
+        start_screen.blit(exp_message_object, exp_message_rect)#출력
         pygame.display.update()#업데이트
 
 def sound_track():
@@ -70,20 +72,22 @@ def sound_track():
 
     text = font.render("배경음악 선택", True, black)
 
-    button1 = pygame.image.load("1.png")
-    button1 = pygame.transform.scale(button1, (screen_width/2, screen_height/10))
-    button2 = pygame.image.load("2.png")
-    button2 = pygame.transform.scale(button2, (screen_width/2, screen_height/10))
-    button1rect = button1.get_rect()
-    button1rect.x = screen_width/4
-    button1rect.y = screen_height*1/4
-    button2rect = button2.get_rect()
-    button2rect.x = screen_width/4
-    button2rect.y = screen_height*2/4
+    button1 = pygame.image.load("1.png")# 이미지 불러오기
+    button1 = pygame.transform.scale(button1, (screen_width/2, screen_height/10))#이미지 크기
+    button2 = pygame.image.load("2.png")# 이미지 불러오기
+    button2 = pygame.transform.scale(button2, (screen_width/2, screen_height/10))#이미지 크기
+    
+    button1rect = button1.get_rect()#1.png의 위치를 지정함.
+    button1rect.x = screen_width/4#위치 설정(가로)
+    button1rect.y = screen_height*1/4#(세로)
+
+    button2rect = button2.get_rect()#2,png
+    button2rect.x = screen_width/4#가로
+    button2rect.y = screen_height*2/4#세로
 
     
     back = pygame.image.load("triangle.png")
-    back_rect = back.get_rect()
+    back_rect = back.get_rect()#back의 우치를 지정할 함수를
 
     done = False
     clock = pygame.time.Clock()
@@ -95,20 +99,21 @@ def sound_track():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 done = True
+                # 화면 x를 누르면 다시 메인메뉴로 넘어감.
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 pygame.mouse.get_rel()
                 mouse_pos = pygame.mouse.get_pos()
                 if mouse_pos[0] > button1rect.left and mouse_pos[0] < button1rect.right and mouse_pos[1] > button1rect.top and mouse_pos[1] < button1rect.bottom:
-                    game_start("Bee.mp3", 220)
+                    game_start("Bee.mp3", 220)#뮤직 이름, 타임
                 if mouse_pos[0] > button2rect.left and mouse_pos[0] < button2rect.right and mouse_pos[1] > button2rect.top and mouse_pos[1] < button2rect.bottom:
-                    game_start("HER.mp3", 180)  
+                    game_start("HER.mp3", 180)#뮤직 이름, 타임
                 if mouse_pos[0] > back_rect.left and mouse_pos[0] < back_rect.right and mouse_pos[1] > back_rect.top and mouse_pos[1] < back_rect.bottom:
                     game()
         
         screen.blit(text, (screen_width/3, screen_height/100))
-        screen.blit(button1, (screen_width/4, screen_height*1/4))
-        screen.blit(button2, (screen_width/4, screen_height*2/4))
-        screen.blit(back, (0,0))
+        screen.blit(button1, (screen_width/4, screen_height*1/4))#button1 의 위치를 정해주고 출력.
+        screen.blit(button2, (screen_width/4, screen_height*2/4))#button2의 위치를 설정, 출력.
+        screen.blit(back, (0,0))#back의 위치를 전해주고 출력함. 
         pygame.display.update()
 
 def explain():
@@ -141,18 +146,18 @@ def explain():
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                done = True#??
+                done = True
 
             if event.type == pygame.MOUSEBUTTONDOWN:
-                pygame.mouse.get_rel()
-                mouse_pos = pygame.mouse.get_pos()
+                pygame.mouse.get_rel()#마우스의 위치를 받음
+                mouse_pos = pygame.mouse.get_pos()#그 다음 pos에 저장하고 그걸 또 mouse_pos라고 함. 그 다음 줄에서 만약에 pos가 그 위치에 있으면 그 함수로 감.
                 if mouse_pos[0] > back_rect.left and mouse_pos[0] < back_rect.right and mouse_pos[1] > back_rect.top and mouse_pos[1] < back_rect.bottom:
                     game()#똑같음.
             
-        screen.blit(text, (screen_width/3,screen_height/100))
-        screen.blit(back, (0,0))
-        screen.blit(explain, (0, screen_height/10))
-        pygame.display.update()#??
+        screen.blit(text, (screen_width/3,screen_height/100))#'게임 플레이 방법'의 위치를 설정함.
+        screen.blit(back, (0,0))#'triangle' 의 위치를 설정. 하지만 맨 윗칸에 있어야 하기 때문에 0,0으로.
+        screen.blit(explain, (0, screen_height/10))#width에서 더 추가하면 이상해짐. 그래서 0으로 두고, 높이만 살짝 조작.
+        pygame.display.update()#화면 새로고침
 
 def game_start(music, music_time):
     # 화면 설정
@@ -177,7 +182,7 @@ def game_start(music, music_time):
     # 피아노 타일 설정
     tile_width = 100
     tile_height = 50
-    tiles = []
+    tiles = []# 타일의 색상을 정해주기 전, 빈칸, 또는 문자, 숫자로 하면 안됨.
     speed = 5
     score = 0
 
@@ -186,16 +191,16 @@ def game_start(music, music_time):
     
     def display_score():
         score_text = font.render(f"점수: {score}", True, white)
-        screen.blit(score_text, (10, 10))
+        screen.blit(score_text, (10, 10)) #점수 항목을 10,10위 위치로 변경.
 
     # line
-    line_width = 100
-    line_height = 20
+    line_width = 100 # 라인의 크기를 말하는거.그리고 4등분해서 출력함.(Line 255)
+    line_height = 20 # 높이
 
     q = pygame.image.load("line.png")
     q = pygame.transform.scale(q,(line_width-4, line_height))
-    q_rect = q.get_rect()
-    q_rect.x = 2
+    q_rect = q.get_rect()#위치를 정해줌.
+    q_rect.x = 2# q버튼의 위치를 정해줌
     q_rect.y = screen_height - line_height*3
     
     w = pygame.image.load("line.png")
@@ -239,25 +244,25 @@ def game_start(music, music_time):
     # BPM 에 맞게 박자 간격 설정
     bpm = 324
     beat_interval = 1 / (bpm/60) # 밀리초 단위
-    next_beat_time = time.time() + beat_interval
+    next_beat_time = time.time() + beat_interval #타일이 겹치지 않게 설정.
 
-    tile_num = music_time * bpm/60
+    tile_num = music_time * bpm/60# 타일의 개수가 음악의 시간에 비례함.
 
     running = True
-    pygame.mixer.music.load( music )
+    pygame.mixer.music.load( music )#music 을 불러옴
 
-    pygame.mixer.music.play()
+    pygame.mixer.music.play()#재생
 
     current_time = 0
     start_time = time.time()
     
     while running and music_time>=current_time - start_time:
         
-        screen.fill(black)                   
+        screen.fill(black)
         
-        current_time = time.time()
+        current_time = time.time()#지금 노래가 실행된 시간
         
-        if current_time >= next_beat_time:
+        if current_time >= next_beat_time: #노래의 남은 시간이 아직 있다면
             
             create_tile()
             next_beat_time += beat_interval
@@ -265,7 +270,7 @@ def game_start(music, music_time):
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
+                running = False #x 표시를 누른다면 중단함.
             if event.type == pygame.KEYDOWN:
                     for tile in tiles:
                         if q_rect.colliderect(tile[0]) and event.key == pygame.K_q:
@@ -279,13 +284,13 @@ def game_start(music, music_time):
                             tiles.remove((tile))
                         elif r_rect.colliderect(tile[0]) and event.key == pygame.K_r:
                             score+=1
-                            tiles.remove((tile))
+                            tiles.remove((tile))# q,w,e,r 의 타일을 누를때 점수가 오름.
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pygame.mouse.get_rel()
                 mouse_pos = pygame.mouse.get_pos()
                 if mouse_pos[0] > home_rect.left and mouse_pos[0] < home_rect.right and mouse_pos[1] > home_rect.top and mouse_pos[1] < home_rect.bottom:
                     pygame.mixer.music.pause()
-                    game()
+                    game() # 만약 마우스의 위치가 홈으로 되어있다면 홈으로 돌아감.
             
 
         move_tiles()
@@ -295,20 +300,21 @@ def game_start(music, music_time):
         for tile, color in tiles:
             pygame.draw.rect(screen, color, tile)
         
-        screen.blit(q, (2, screen_height - line_height*3))
+        screen.blit(q, (2, screen_height - line_height*3)) #높이는 쪽같고, q,w,e,r에 대한 라인의 위치를 맞춘다.
         screen.blit(w, (line_width + 2, screen_height - line_height*3))
         screen.blit(e, (line_width * 2 + 2, screen_height - line_height*3))
         screen.blit(r, (line_width * 3 + 2,  screen_height - line_height*3))
-        screen.blit(home, (screen_width - 50, 0))
+        screen.blit(home, (screen_width - 50, 0))#홈의 위치
 
-        pygame.display.flip()
-        clock.tick(60)
+        pygame.display.flip()#update와 똑같이 새로고침 함.
+        clock.tick(60) # 60프레임
 
 
-    pygame.mixer.music.pause()
+    pygame.mixer.music.pause()#음악이 끝나면 점수 화면으로.
     game_score(tile_num, score)
 
 def game_score(tile_num, score):
+
     width = 400
     height = 500
     start_screen = pygame.display.set_mode((width, height))
@@ -358,7 +364,6 @@ def game_score(tile_num, score):
         start_screen.blit(score_message_object, score_message_rect)
         start_screen.blit(home_message_object, home_message_rect)
         pygame.display.update()    
-    
 
 # 실행시 제일 먼저 실행
 game()
