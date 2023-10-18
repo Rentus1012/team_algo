@@ -10,7 +10,7 @@ title = "Piano Game"
 pygame.display.set_caption(title)
 
 #시작화면 만들기
-def game():
+def game():#메인 화면
     width = 400
     height = 500
     start_screen = pygame.display.set_mode((width, height))#사이즈 설정.(400 X 500)
@@ -58,7 +58,7 @@ def game():
         start_screen.blit(exp_message_object, exp_message_rect)#출력
         pygame.display.update()#업데이트
 
-def sound_track():
+def sound_track():# 노래 선택 화면
     white = (255,255,255)
     black = (0,0,0)
 
@@ -116,7 +116,7 @@ def sound_track():
         screen.blit(back, (0,0))#back의 위치를 전해주고 출력함. 
         pygame.display.update()
 
-def explain():
+def explain():# 설명을 위한 화면
     white = (255,255,255)
     black = (0,0,0)
 
@@ -159,7 +159,7 @@ def explain():
         screen.blit(explain, (0, screen_height/10))#width에서 더 추가하면 이상해짐. 그래서 0으로 두고, 높이만 살짝 조작.
         pygame.display.update()#화면 새로고침
 
-def game_start(music, music_time):
+def game_start(music, music_time):# 게임 시작
     # 화면 설정
     screen_width, screen_height = 400, 500
     screen = pygame.display.set_mode((screen_width, screen_height))
@@ -237,8 +237,11 @@ def game_start(music, music_time):
 
     def remove_tiles():
         for tile, _ in tiles:
-            if tile.top > screen_height:
-                tiles.remove((tile, _))
+            if tile.top > screen_height:# 만약 타일을 치지 않고 바닥에 닿으면 타일이 없어진다.
+                
+                tiles.remove((tile, _))#ip.move 함수는 for 루프에서 큐플의 구조를 만족시켜야함. 하지만 그 값을 사용하지 않는다고 해서 _를 빼면 안됨. 
+                #그래서 ,_ 를 해줌으로써 그 값을 사용하지 않겠다는 것을 나타냄.
+                # 그런데 _에 원래 들어가야할 항목은 
 
                 
     # BPM 에 맞게 박자 간격 설정
@@ -313,7 +316,7 @@ def game_start(music, music_time):
     pygame.mixer.music.pause()#음악이 끝나면 점수 화면으로.
     game_score(tile_num, score)
 
-def game_score(tile_num, score):
+def game_score(tile_num, score):# 게임 점수
 
     width = 400
     height = 500
@@ -363,7 +366,7 @@ def game_score(tile_num, score):
         start_screen.blit(title_message_object, title_message_rect)
         start_screen.blit(score_message_object, score_message_rect)
         start_screen.blit(home_message_object, home_message_rect)
-        pygame.display.update()    
+        pygame.display.update()
 
 # 실행시 제일 먼저 실행
 game()
