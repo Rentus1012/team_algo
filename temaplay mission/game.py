@@ -233,7 +233,8 @@ def game_start(music, music_time):# 게임 시작
 
     def move_tiles():
         for tile, _ in tiles:
-            tile.move_ip(0, speed)
+            tile.move_ip(0, speed)# x,y 축으로 얼마나 움직일꺼냐.
+            #y축은 speed(5) 만큼
 
     def remove_tiles():
         for tile, _ in tiles:
@@ -245,9 +246,9 @@ def game_start(music, music_time):# 게임 시작
 
                 
     # BPM 에 맞게 박자 간격 설정
-    bpm = 324
+    bpm = 324# 왜??
     beat_interval = 1 / (bpm/60) # 밀리초 단위
-    next_beat_time = time.time() + beat_interval #타일이 겹치지 않게 설정.
+    next_beat_time = time.time() + beat_interval # 음악 시작 타이밍
 
     tile_num = music_time * bpm/60# 타일의 개수가 음악의 시간에 비례함.
 
