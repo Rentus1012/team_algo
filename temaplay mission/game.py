@@ -222,10 +222,10 @@ def game_start(music, music_time):# 게임 시작
     r_rect.y = screen_height - line_height*3
     
     # 화면을 4개의 세로 등분된 화면으로 나눔
-    line_x_coordinates = [i * (screen_width // 4) for i in range(4)]  # 4개의 세로선
+    line_x_coordinates = [i * (screen_width // 4)for i in range(4)]  # 4개의 세로선
 
     def create_tile():
-        x = random.choice(line_x_coordinates)
+        x = random.choice(line_x_coordinates)#random 함수를 사용해서 첫번째 줄(0), 1,2,3중 하나로 나오게 함.
         y = 0
         color = white
         tile = pygame.Rect(x, y, tile_width, tile_height)
